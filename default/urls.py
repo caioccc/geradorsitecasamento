@@ -17,11 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from app.views import IndexView, submit_rsvp, submit_recado
+from app.views import IndexView, submit_rsvp, submit_recado, UploadView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index_view'),
     path('submit', submit_rsvp, name='submit_rsvp'),
-    path('send-recado', submit_recado, name='submit_recado')
+    path('send-recado', submit_recado, name='submit_recado'),
+    path('upload-csv/', UploadView.as_view(), name="profile_upload"),
 ]

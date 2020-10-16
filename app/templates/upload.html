@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Caio Marinho - caiomarinho.me">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <meta name="robots" content="index/follow"/>
+    <meta name="keywords"
+          content="template,html,design,web,frontend,wedding,bodas,website,marriage,bride,groom,responsive,themeforest,envato"/>
+    <meta name="description"
+          content="{{ noivo.nome }} e {{ noiva.nome }} - Wedding site."/>
+
+    <meta property="og:title" content="{{ noivo.nome }} e {{ noiva.nome }} - Wedding"/>
+    <meta property="og:url" content="#"/>
+    <meta property="og:image" content="#"/>
+    <meta property="og:site_name" content="{{ noivo.nome }} e {{ noiva.nome }} "/>
+    <meta property="og:description" content="{{ noivo.nome }} e {{ noiva.nome }}  - Wedding site."/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{{ noivo.nome }} e {{ noiva.nome }} </title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!-- TimeCircles-countdown -->
+    <link rel="stylesheet" href="{% static 'libs/TimeCircles-countdown/TimeCircles.css' %}">
+
+    <!-- Owl stylesheet -->
+    <link rel="stylesheet" href="{% static 'libs/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'libs/owl-carousel/owl.theme.css' %}">
+
+    <!-- Magnific Popup -->
+    <link rel="stylesheet"
+          href="{% static 'libs/magnific-popup/magnific-popup.css' %}">
+
+    <!-- Loading Rolling -->
+    <link rel="stylesheet" href="{% static 'libs/loading/rolling.css' %}">
+
+    <!-- Fonts -->
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Oswald:400,300,700'>
+    <link rel='stylesheet' type='text/css'
+          href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,300italic,400italic,700italic,600italic,800italic'>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+    <!-- Theme Main Style -->
+    <link rel="stylesheet" href="{% static 'css/theme-style.css' %}">
+
+    <style>
+        body {
+            color: #7b7571;
+        }
+
+        .btn-primary,
+        .btn-primary.btn-bordered:focus,
+        .btn-primary.btn-bordered:hover,
+        .btn-primary.btn-bordered:active,
+        .btn-primary.btn-bordered:active:focus,
+        .btn-primary.btn-bordered.active {
+            background: {{ recepcao.cor_casamento }};
+            border: solid 2px{{ recepcao.cor_casamento }};
+            color: #fff;
+        }
+
+        .btn-primary:focus,
+        .btn-primary:hover,
+        .btn-primary:active,
+        .btn-primary:active:focus,
+        .btn-primary.active,
+        .btn-primary.btn-bordered {
+            background: none;
+            border: solid 2px{{ recepcao.cor_casamento }};
+            color: {{ recepcao.cor_casamento }};
+        }
+
+        .date span {
+            border-bottom: solid 2px{{ recepcao.cor_casamento }};
+        }
+
+        .title span {
+            border-color: {{ recepcao.cor_casamento }} -moz-use-text-color -moz-use-text-color;
+        }
+
+        .title-block .divider {
+            border-bottom: solid 2px{{ recepcao.cor_casamento }};
+        }
+
+        .social-icons a {
+            border: 4px solid #7b7571;
+            background: #7b7571;
+        }
+
+        .social-icons a:hover {
+            color: #fff;
+            border: 4px solid{{ recepcao.cor_casamento }};
+            background: {{ recepcao.cor_casamento }};
+        }
+
+        .bg-color-1, .timeline > li > .timeline-badge, .timeline > li > .timeline-end > .timeline-badge {
+            background-color: {{ recepcao.cor_casamento }};
+        }
+
+        .circle, .owl-theme .owl-controls .owl-page.active span, .owl-theme .owl-controls.clickable .owl-page:hover span {
+            background: {{ recepcao.cor_casamento }};
+        }
+
+        #ajaxForm .form-control:focus {
+            border-color: {{ recepcao.cor_casamento }};
+        }
+
+        h1 span, h2 span, h3 span, h4 span, h5 span, h6 span, .txt-color-1, .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover, section#frase i, .final-frase span, #ajaxForm label.checkbox-button:hover, #ajaxForm input[type="checkbox"]:checked + label.checkbox-button {
+            color: {{ recepcao.cor_casamento }};
+        }
+
+        a, a:hover {
+            color: {{ recepcao.cor_casamento }};
+        }
+
+        section#home {
+            background: url({{ inicio.foto_background_url }}) no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            text-align: center;
+            height: 800px;
+            padding: 50px 0px;
+            position: relative;
+            padding-top: 6%;
+        }
+
+        section.img-bg-2 {
+            background: url({{ frase.foto_background_url }}) no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: #FFF;
+        }
+
+        section.img-bg-3 {
+            background: url({{ contador.foto_background_url }}) no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: #FFF;
+        }
+
+        section.img-bg-4 {
+            background: url({{ presentes.foto_background_url }}) no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: #FFF;
+        }
+
+        section.img-bg-5 {
+            background: url({{ footer.foto_background_url }}) no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: #FFF;
+        }
+
+    </style>
+
+    <!--========================Color Variant====================-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<style>
+    #fixfoot {
+        position: fixed;
+        left: 0px;
+        bottom: 0px;
+        height: 80px;
+        width: 100%;
+        background: transparent;
+    }
+
+    /* IE 6 */
+    * html #fixfoot {
+        position: absolute;
+        top: expression((0-(footer.offsetHeight)+(document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight)+(ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop))+'px');
+    }
+</style>
+<!-- END: fullscreenloading -->
+<div id="fullscreenloading">
+    <div id="fullscreenloading-content">
+        <div id="boxedResult">
+            <div id="sendResult">
+                <div class="uil-rolling-css">
+                    <div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="uil-rolling-css">
+                    <div>
+                        <button class="" onclick="">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- START SECTION: our-story -->
+    <section id="our-story">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="file1"> Upload a file</label>
+                        <input type="file" id="file1" name="file">
+                        <small>Only accepts CSV files</small>
+                        <button type="submit">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- END: footer -->
+
+<!-- START: scripts -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+<!-- Bootstrap main Js File-->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<!-- Color Switch -->
+<style type="text/css">
+    .color-switch {
+        position: fixed;
+        top: 40%;
+        left: -121px;
+        background: #fff;
+        padding: 20px;
+        transition: all .4s;
+        z-index: 9999999;
+        box-shadow: 0px 0px 10px #eae8e8;
+    }
+
+    .switch-active {
+        left: 0;
+    }
+
+    .color-switch .icon {
+        position: absolute;
+        top: 0;
+        right: -40px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        text-align: center;
+        line-height: 40px;
+        color: #121212;
+        background: #fff;
+        box-shadow: 0px 0px 10px #eae8e8;
+        cursor: pointer;
+    }
+
+    .color-switch .icon i {
+        -webkit-animation: fa-spin 2s infinite linear;
+        animation: fa-spin 2s infinite linear;
+    }
+
+    .color-switch button::after {
+        content: "\f00c";
+        font-family: "FontAwesome";
+        position: absolute;
+        top: 0;
+        left: 5px;
+        font-size: 10px;
+        color: #fff;
+        opacity: 0;
+    }
+
+    .color-switch button {
+        width: 20px;
+        margin: 2px;
+        height: 20px;
+        line-height: 20px;
+        border: 0;
+        text-align: center;
+        position: relative;
+    }
+
+    .color-switch .blue {
+        background: #7E6DF6;
+    }
+
+    .color-switch .active::after {
+        opacity: 1;
+    }
+</style>
+
+<!-- Sticky Navbar -->
+<script type="text/javascript" src="{% static 'js/jquery.sticky.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.nav.js' %}"></script>
+<!-- owl-carousel -->
+<script src="{% static 'libs/owl-carousel/owl.carousel.min.js' %}"></script>
+<!-- Stellar -->
+<script src="{% static 'libs/stellar/jquery.stellar.min.js' %}"></script>
+<!-- gallery-grid -->
+<script src="{% static 'libs/gallery-grid/gallery-grid.js' %}"></script>
+<!-- Magnific Popup core JS file -->
+<script src="{% static 'libs/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+<!-- Bootstrap Validator -->
+<script src="{% static 'libs/bootstrap-validator/validator.min.js' %}"></script>
+<!-- TimeCircles-countdown -->
+<script src="{% static 'libs/TimeCircles-countdown/TimeCircles.js' %}"></script>
+
+<!-- Theme Main Js file -->
+<script src="{% static 'js/theme-main.js' %}"></script>
+<!-- END: scripts -->
+<script>
+    $(document).ready(function () {
+        $('button[title="Play"]').click();
+    });
+</script>
+
+</body>
+</html>
