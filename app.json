@@ -6,8 +6,7 @@
   "success_url": "/upload-csv",
   "scripts": {
     "postdeploy": "python manage.py makemigrations",
-    "postdeploy": "python manage.py migrate",
-    "postdeploy": "python manage.py users"
+    "postdeploy": "python manage.py migrate"
   },
   "keywords": [
     "django",
