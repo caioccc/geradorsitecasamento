@@ -3,10 +3,11 @@
   "description": "Este button gera sites de casamento em 1 click. Basta passar um .csv com as informações corretas.",
   "repository": "https://github.com/caioccc/geradorsitecasamento",
   "logo": "https://cdn.iconscout.com/icon/free/png-512/django-2-282855.png",
-  "success_url": "/admin",
+  "success_url": "/upload-csv",
   "scripts": {
     "postdeploy": "python manage.py makemigrations",
-    "postdeploy": "python manage.py migrate"
+    "postdeploy": "python manage.py migrate",
+    "postdeploy": "python manage.py users"
   },
   "keywords": [
     "django",

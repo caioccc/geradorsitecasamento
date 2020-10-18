@@ -71,7 +71,7 @@ class UploadView(FormView):
         lista_presentes.save()
         for i in range(41, 44):
             item_lista = ItemListaPresentes()
-            if 'nan' not in str(arr[i]):
+            if 'nan' not in str(arr[i]) or not len(str(arr[i])) == 3:
                 self.check_lista_presentes(arr[i], item_lista, lista_presentes)
 
     def generate_timeline(self, arr):
@@ -92,7 +92,8 @@ class UploadView(FormView):
 
     def generate_footer(self, arr):
         footer = Pagina_Footer()
-        footer.frase = arr[23]
+        if 'nan' not in str(arr[23]) or not len(str(arr[23])) == 3:
+            footer.frase = arr[23]
         footer.save()
 
     def generate_recepcao(self, arr):
