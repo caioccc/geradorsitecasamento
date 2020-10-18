@@ -5,8 +5,7 @@
   "logo": "https://cdn.iconscout.com/icon/free/png-512/django-2-282855.png",
   "success_url": "/upload-csv",
   "scripts": {
-    "postdeploy": "python manage.py makemigrations",
-    "postdeploy": "python manage.py migrate"
+    "postdeploy": "python manage.py makemigrations && python manage.py migrate && python manage.py makeusers"
   },
   "keywords": [
     "django",
