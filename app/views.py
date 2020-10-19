@@ -23,11 +23,11 @@ class UploadView(FormView):
         padrinhos = Pagina_Padrinhos()
         padrinhos.frase = ''
         padrinhos.save()
-        for j in range(56, 62):
+        for j in range(56, 76, 2):
             if 'nan' not in str(arr[j]) or not len(str(arr[j])) == 3:
                 padrinho = ItemPadrinho()
                 padrinho.nome = arr[j]
-                padrinho.foto_url = self.get_image_url(arr[j + 6])
+                padrinho.foto_url = self.get_image_url(arr[j + 1])
                 padrinho.pagina_padrinhos = padrinhos
                 padrinho.save()
 
