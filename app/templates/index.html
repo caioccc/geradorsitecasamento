@@ -136,18 +136,21 @@
             background-size: cover;
             color: #FFF;
         }
+
         section.img-bg-3 {
             background: url({{ contador.foto_background_url }}) no-repeat;
             background-attachment: fixed;
             background-size: cover;
             color: #FFF;
         }
+
         section.img-bg-4 {
             background: url({{ presentes.foto_background_url }}) no-repeat;
             background-attachment: fixed;
             background-size: cover;
             color: #FFF;
         }
+
         section.img-bg-5 {
             background: url({{ footer.foto_background_url }}) no-repeat;
             background-attachment: fixed;
@@ -264,7 +267,9 @@
                             <li class=""><a href="#our-story">Nossa História</a></li>
                         {% endif %}
                         {% if galeria.habilitado %}
-                            <li class=""><a href="#gallery">Galeria</a></li>
+                            {% if categorias_galeria|length > 0 %}
+                                <li class=""><a href="#gallery">Galeria</a></li>
+                            {% endif %}
                         {% endif %}
                         {% if padrinhos.habilitado %}
                             <li class=""><a href="#featured-people">Padrinhos</a></li>
@@ -273,7 +278,9 @@
                             <li class=""><a href="#rsvp">RSVP</a></li>
                         {% endif %}
                         {% if presentes.habilitado %}
-                            <li class=""><a href="#gift-registry">Lista de Presentes</a></li>
+                            {% if presentes.itemlistapresentes_set.all|length > 0 %}
+                                <li class=""><a href="#gift-registry">Lista de Presentes</a></li>
+                            {% endif %}
                         {% endif %}
                         {% if mural.habilitado %}
                             <li class=""><a href="#mural">Mural</a></li>
@@ -418,44 +425,46 @@
 
 <!-- START SECTION: gallery -->
 {% if galeria.habilitado %}
-    <section id="gallery" >
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 col-xs-12 text-center">
-                    <div class="title-block">
-                        <h1>Galeria de <span><em>Fotos</em></span></h1>
-                        <div class="divider"></div>
-                        <p><em>
-                            {{ galeria.texto }}
-                        </em></p>
-                        <div class="gallery_nav">
-                            <button class="btn btn-primary btn-bordered filter-button active" data-filter="all">Tudo
-                            </button>
-                            {% for category in categorias_galeria %}
-                                <button class="btn btn-primary btn-bordered filter-button"
-                                        data-filter="gallery-{{ category.titulo }}">
-                                    {{ category.titulo }}
+    {% if categorias_galeria|length > 0 %}
+        <section id="gallery">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 col-xs-12 text-center">
+                        <div class="title-block">
+                            <h1>Galeria de <span><em>Fotos</em></span></h1>
+                            <div class="divider"></div>
+                            <p><em>
+                                {{ galeria.texto }}
+                            </em></p>
+                            <div class="gallery_nav">
+                                <button class="btn btn-primary btn-bordered filter-button active" data-filter="all">Tudo
                                 </button>
-                            {% endfor %}
+                                {% for category in categorias_galeria %}
+                                    <button class="btn btn-primary btn-bordered filter-button"
+                                            data-filter="gallery-{{ category.titulo }}">
+                                        {{ category.titulo }}
+                                    </button>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row gallery-popup">
-                {#            -----------     FAMILIA ------  #}
-                {% for cat in categorias_galeria %}
-                    {% for item in cat.itemgaleria_set.all %}
-                        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter gallery-{{ item.categoria.titulo }}">
-                            <a href="{{ item.foto_url }}" class="mfp-image" title="">
-                                <img src="{{ item.foto_url }} " class="img-responsive"
-                                     alt="Gallery image">
-                            </a>
-                        </div>
+                <div class="row gallery-popup">
+                    {#            -----------     FAMILIA ------  #}
+                    {% for cat in categorias_galeria %}
+                        {% for item in cat.itemgaleria_set.all %}
+                            <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter gallery-{{ item.categoria.titulo }}">
+                                <a href="{{ item.foto_url }}" class="mfp-image" title="">
+                                    <img src="{{ item.foto_url }} " class="img-responsive"
+                                         alt="Gallery image">
+                                </a>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    {% endif %}
 {% endif %}
 <!-- END SECTION: gallery -->
 
@@ -572,93 +581,97 @@
 
 <!-- START SECTION: gift-registry -->
 {% if presentes.habilitado %}
-    <section id="gift-registry" class="img-bg-4" data-stellar-background-ratio="0.5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-xs-12 text-center">
-                    <div class="title-block">
-                        <h1>Lista de <span><em>Presentes</em></span></h1>
-                        <div class="divider"></div>
-                        <p><em>{{ presentes.texto }}</em></p>
-                    </div>
+    {% if presentes.itemlistapresentes_set.all|length > 0 %}
+        <section id="gift-registry" class="img-bg-4" data-stellar-background-ratio="0.5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 col-xs-12 text-center">
+                        <div class="title-block">
+                            <h1>Lista de <span><em>Presentes</em></span></h1>
+                            <div class="divider"></div>
+                            <p><em>{{ presentes.texto }}</em></p>
+                        </div>
 
-                    <div id="owl-logo">
-                        {% for pre in presentes.itemlistapresentes_set.all %}
-                            {% if pre.is_site %}
-                                <div class="item"><a
-                                        href="{{ pre.link_url }}"
-                                        target="_blank">
-                                    <img style="height:91px;" src="{{ pre.foto_url }}" alt="Owl Image">
-                                </a></div>
-                            {% elif pre.is_site == False %}
-                                <div class="item">
-                                    <a href="#" data-toggle="modal" data-target="#{{ pre.key }}">
+                        <div id="owl-logo">
+                            {% for pre in presentes.itemlistapresentes_set.all %}
+                                {% if pre.is_site %}
+                                    <div class="item"><a
+                                            href="{{ pre.link_url }}"
+                                            target="_blank">
                                         <img style="height:91px;" src="{{ pre.foto_url }}" alt="Owl Image">
-                                    </a>
-                                </div>
-                            {% else %}
-                                <div class="item">
-                                    <a href="#" data-toggle="modal" data-target="#{{ pre.key }}">
-                                        <img style="height:91px;" src="{{ pre.foto_url }}" alt="Owl Image">
-                                    </a>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                                    </a></div>
+                                {% elif pre.is_site == False %}
+                                    <div class="item">
+                                        <a href="#" data-toggle="modal" data-target="#{{ pre.key }}">
+                                            <img style="height:91px;" src="{{ pre.foto_url }}" alt="Owl Image">
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="item">
+                                        <a href="#" data-toggle="modal" data-target="#{{ pre.key }}">
+                                            <img style="height:91px;" src="{{ pre.foto_url }}" alt="Owl Image">
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
 
-                </div>
-            </div>
-        </div>
-    </section>
-    {% for prese in presentes.itemlistapresentes_set.all %}
-        {% if prese.is_site == False %}
-            <div class="modal fade" id="{{ prese.key }}" tabindex="-1" role="dialog" aria-labelledby="{{ prese.key }}">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title" id="myModalLabel">{{ prese.nome }}</h4>
-                        </div>
-                        <div class="modal-body">
-                            {{ prese.iframe|safe }}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar
-                            </button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Ok
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
-        {% else %}
-            <div class="modal fade" id="{{ prese.key }}" tabindex="-1" role="dialog" aria-labelledby="{{ prese.key }}">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title" id="myModalLabel">{{ prese.nome }}</h4>
-                        </div>
-                        <div class="modal-body text-center">
-                            <img src="{{ prese.foto_url }}" alt="Owl Image"
-                                 class="img-responsive text-center"
-                                 style="display: inline;">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar
-                            </button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Ok
-                            </button>
+        </section>
+        {% for prese in presentes.itemlistapresentes_set.all %}
+            {% if prese.is_site == False %}
+                <div class="modal fade" id="{{ prese.key }}" tabindex="-1" role="dialog"
+                     aria-labelledby="{{ prese.key }}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">{{ prese.nome }}</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{ prese.iframe|safe }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar
+                                </button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Ok
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% else %}
+                <div class="modal fade" id="{{ prese.key }}" tabindex="-1" role="dialog"
+                     aria-labelledby="{{ prese.key }}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">{{ prese.nome }}</h4>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="{{ prese.foto_url }}" alt="Owl Image"
+                                     class="img-responsive text-center"
+                                     style="display: inline;">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar
+                                </button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Ok
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endif %}
 <!-- END SECTION: gift-registry -->
 
@@ -745,7 +758,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 col-xs-12 text-center">
-                    <h1>{{ footer.frase }}</h1>
+                    {% if footer.frase %}
+                        <h1>{{ footer.frase }}</h1>
+                    {% endif %}
                     <ul class="names">
                         <li>{{ noivo.nome }}</li>
                         <li class="circle">&amp;</li>

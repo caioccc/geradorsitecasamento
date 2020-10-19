@@ -1,5 +1,8 @@
 # -*- coding: UTF-8 -*-
 
+import datetime
+
+import pandas as pd
 from django.http import JsonResponse, Http404
 # Create your views here.
 from django.views.generic import TemplateView, FormView
@@ -8,14 +11,13 @@ from app.forms import FormUploadFile
 from app.models import Rsvp, Recado, Pagina_Inicio, Pagina_Noivos, Pagina_Frase, Pagina_Timeline, Pagina_Contador, \
     Pagina_Galeria, Pagina_Padrinhos, Pagina_RSVP, Pagina_ListaPresentes, Pagina_Mural, Pagina_Footer, Noivo, Noiva, \
     Recepcao, CategoriaGaleria, ItemPadrinho, ItemGaleria, ItemListaPresentes, ItemTimeline, Endereco
-import pandas as pd
-import datetime
 
 
 class UploadView(FormView):
     template_name = 'upload.html'
     success_url = '/'
     form_class = FormUploadFile
+    csv_file = ''
 
     def generate_padrinhos(self, arr):
         padrinhos = Pagina_Padrinhos()
@@ -167,22 +169,30 @@ class UploadView(FormView):
             item_lista.pagina_listapresentes = pagina
         item_lista.save()
 
-    def handle_csv(self, csv_file):
-        df = pd.read_csv(csv_file)
-        arr = df.values[0][1:]
-        self.initialize()
-        self.generate_noivo(arr)
-        self.generate_noiva(arr)
-        self.generate_recepcao(arr)
-        self.generate_footer(arr)
-        self.generate_timeline(arr)
-        self.generate_lista_presentes(arr)
-        self.generate_galeria(arr)
-        self.generate_padrinhos(arr)
+    def handle_csv(self):
+        try:
+            df = pd.read_csv(self.csv_file)
+            if len(df.values) > 0:
+                arr = df.values[0][1:]
+            else:
+                return True
+            self.initialize()
+            self.generate_noivo(arr)
+            self.generate_noiva(arr)
+            self.generate_recepcao(arr)
+            self.generate_footer(arr)
+            self.generate_timeline(arr)
+            self.generate_lista_presentes(arr)
+            self.generate_galeria(arr)
+            self.generate_padrinhos(arr)
+            return True
+        except (Exception,):
+            return False
 
     def form_valid(self, form):
         csv_file = self.request.FILES['file']
-        self.handle_csv(csv_file)
+        self.csv_file = csv_file
+        self.handle_csv()
         return super(UploadView, self).form_valid(form)
 
     def form_invalid(self, form):
